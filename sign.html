@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - ME CRYPT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00d9ff;
+            --secondary: #7000ff;
+            --dark: #0a0e27;
+            --darker: #050816;
+            --light: #ffffff;
+            --gray: #a0aec0;
+            --success: #00ff88;
+            --error: #ff4466;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--darker);
+            color: var(--light);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+            padding: 40px 20px;
+        }
+
+        /* Animated Background */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #050816 0%, #0a0e27 50%, #1a1f3a 100%);
+            z-index: -2;
+        }
+
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 217, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 217, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.3;
+            animation: float 15s infinite ease-in-out;
+            z-index: -1;
+        }
+
+        .orb1 {
+            width: 500px;
+            height: 500px;
+            background: var(--primary);
+            top: -200px;
+            right: -200px;
+        }
+
+        .orb2 {
+            width: 600px;
+            height: 600px;
+            background: var(--secondary);
+            bottom: -250px;
+            left: -250px;
+            animation-delay: 3s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-100px, 100px) scale(1.1); }
+        }
+
+        /* Signup Container */
+        .signup-container {
+            width: 100%;
+            max-width: 550px;
+            animation: fadeInScale 0.8s ease-out;
+        }
+
+        @keyframes fadeInScale {
+            0% {
+                opacity: 0;
+                transform: scale(0.9) translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .signup-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 24px;
+            padding: 50px 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .signup-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .back-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .back-home:hover {
+            color: var(--primary);
+            transform: translateX(-5px);
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-align: center;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                filter: drop-shadow(0 0 10px rgba(0, 217, 255, 0.5));
+            }
+            50% {
+                filter: drop-shadow(0 0 20px rgba(112, 0, 255, 0.7));
+            }
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--gray);
+            margin-bottom: 35px;
+            font-size: 1.1rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            animation: slideIn 0.6s ease-out backwards;
+        }
+
+        .form-group:nth-child(1) { animation-delay: 0.1s; }
+        .form-group:nth-child(2) { animation-delay: 0.15s; }
+        .form-group:nth-child(3) { animation-delay: 0.2s; }
+        .form-group:nth-child(4) { animation-delay: 0.25s; }
+        .form-group:nth-child(5) { animation-delay: 0.3s; }
+
+        @keyframes slideIn {
+            0% {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--light);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(0, 217, 255, 0.2);
+            border-radius: 12px;
+            color: var(--light);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2300d9ff' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            padding-right: 40px;
+        }
+
+        select option {
+            background: var(--dark);
+            color: var(--light);
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.2);
+        }
+
+        input::placeholder {
+            color: var(--gray);
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+            font-size: 1.2rem;
+            pointer-events: none;
+        }
+
+        /* Password Strength Indicator */
+        .password-strength {
+            margin-top: 8px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .password-strength.active {
+            display: block;
+        }
+
+        .strength-bar {
+            height: 100%;
+            width: 0%;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .strength-weak { background: var(--error); width: 33%; }
+        .strength-medium { background: #ffaa00; width: 66%; }
+        .strength-strong { background: var(--success); width: 100%; }
+
+        .strength-text {
+            font-size: 0.85rem;
+            margin-top: 5px;
+            color: var(--gray);
+        }
+
+        /* Checkbox */
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 25px 0;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin-top: 4px;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--gray);
+            cursor: pointer;
+        }
+
+        .checkbox-group a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .checkbox-group a:hover {
+            text-decoration: underline;
+        }
+
+        .btn-signup {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 12px;
+            color: var(--light);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 217, 255, 0.3);
+            animation: slideIn 0.6s ease-out 0.35s backwards;
+        }
+
+        .btn-signup:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 217, 255, 0.5);
+        }
+
+        .btn-signup:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-signup:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 30px 0;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(0, 217, 255, 0.2);
+        }
+
+        .divider::before {
+            margin-right: 15px;
+        }
+
+        .divider::after {
+            margin-left: 15px;
+        }
+
+        .social-signup {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .social-btn {
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(0, 217, 255, 0.2);
+            border-radius: 10px;
+            color: var(--light);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .social-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 25px;
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        .login-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .login-link a:hover {
+            color: var(--light);
+        }
+
+        /* Security Features */
+        .security-features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(0, 217, 255, 0.1);
+        }
+
+        .security-item {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        .security-item::before {
+            display: block;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .security-item:nth-child(1)::before { content: '🔒'; }
+        .security-item:nth-child(2)::before { content: '🛡️'; }
+        .security-item:nth-child(3)::before { content: '⚡'; }
+
+        /* Form Validation */
+        .error-message {
+            color: var(--error);
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        input.error {
+            border-color: var(--error);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .signup-container {
+                max-width: 480px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 30px 15px;
+            }
+
+            .signup-card {
+                padding: 35px 25px;
+            }
+
+            .logo {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+                margin-bottom: 30px;
+            }
+
+            .form-group {
+                margin-bottom: 18px;
+            }
+
+            input, select {
+                padding: 13px 18px;
+                font-size: 0.95rem;
+            }
+
+            label {
+                font-size: 0.9rem;
+                margin-bottom: 6px;
+            }
+
+            .input-icon {
+                font-size: 1.1rem;
+                right: 12px;
+            }
+
+            .btn-signup {
+                padding: 14px;
+                font-size: 1rem;
+            }
+
+            .social-signup {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .social-btn {
+                padding: 13px;
+                font-size: 0.95rem;
+            }
+
+            .security-features {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .checkbox-group {
+                margin: 20px 0;
+            }
+
+            .checkbox-group label {
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 20px 10px;
+            }
+
+            .signup-card {
+                padding: 30px 20px;
+            }
+
+            .logo {
+                font-size: 1.7rem;
+            }
+
+            .subtitle {
+                font-size: 0.95rem;
+            }
+
+            .back-home {
+                font-size: 0.85rem;
+                margin-bottom: 25px;
+            }
+
+            .form-group {
+                margin-bottom: 16px;
+            }
+
+            input, select {
+                padding: 12px 16px;
+                font-size: 0.9rem;
+            }
+
+            label {
+                font-size: 0.85rem;
+            }
+
+            .input-icon {
+                font-size: 1rem;
+                right: 10px;
+            }
+
+            .password-strength {
+                margin-top: 6px;
+            }
+
+            .strength-text {
+                font-size: 0.8rem;
+            }
+
+            .error-message {
+                font-size: 0.8rem;
+            }
+
+            .btn-signup {
+                padding: 13px;
+                font-size: 0.95rem;
+                margin-top: 20px;
+            }
+
+            .divider {
+                font-size: 0.85rem;
+                margin: 25px 0;
+            }
+
+            .checkbox-group {
+                margin: 18px 0;
+            }
+
+            .checkbox-group label {
+                font-size: 0.8rem;
+            }
+
+            .login-link {
+                font-size: 0.9rem;
+                margin-top: 20px;
+            }
+
+            .security-features {
+                margin-top: 25px;
+                padding-top: 20px;
+            }
+
+            .security-item {
+                font-size: 0.75rem;
+            }
+
+            .security-item::before {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+    <div class="grid-overlay"></div>
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+
+    <div class="signup-container">
+        <div class="signup-card">
+            <a href="index.html" class="back-home">← Back to Home</a>
+            
+            <div class="logo">ME CRYPT</div>
+            <p class="subtitle">Create your account and start trading</p>
+
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="fullName" placeholder="John Doe" required>
+                        <span class="input-icon">👤</span>
+                    </div>
+                    <div class="error-message" id="nameError">Please enter your full name</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <div class="input-wrapper">
+                        <input type="email" id="email" placeholder="your.email@example.com" required>
+                        <span class="input-icon">📧</span>
+                    </div>
+                    <div class="error-message" id="emailError">Please enter a valid email</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <div class="input-wrapper">
+                        <input type="tel" id="phone" placeholder="+1 (555) 000-0000" required>
+                        <span class="input-icon">📱</span>
+                    </div>
+                    <div class="error-message" id="phoneError">Please enter a valid phone number</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="country">Country</label>
+                    <div class="input-wrapper">
+                        <select id="country" required>
+                            <option value="">Select your country</option>
+                            <option value="US">United States</option>
+                            <option value="UK">United Kingdom</option>
+                            <option value="CA">Canada</option>
+                            <option value="AU">Australia</option>
+                            <option value="DE">Germany</option>
+                            <option value="FR">France</option>
+                            <option value="NG">Nigeria</option>
+                            <option value="ZA">South Africa</option>
+                            <option value="IN">India</option>
+                            <option value="SG">Singapore</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="password" placeholder="Create a strong password" required>
+                        <span class="input-icon">🔒</span>
+                    </div>
+                    <div class="password-strength" id="passwordStrength">
+                        <div class="strength-bar" id="strengthBar"></div>
+                    </div>
+                    <div class="strength-text" id="strengthText"></div>
+                    <div class="error-message" id="passwordError">Password must be at least 8 characters</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                
